@@ -36,7 +36,11 @@ export default class TaskScreen extends React.Component{
 
     _renderDotIndicator() {
         return <PagerDotIndicator pageCount={3} />;
-      }
+      } 
+
+    addContact = contact => {
+        this.setState(prevState => ({tasks: [...prevState.tasks, contact]}), console.log(this.state.tasks))
+    }
 
 
     render(){
@@ -57,9 +61,10 @@ export default class TaskScreen extends React.Component{
                         <FlatList
                         data={this.state.tasks}
                         renderItem={({item}) => item.status === 'to do' ? <Task {...item} ></Task> : null}
-                        keyExtractor={item => item.id} style={styles.flatList}
-                        ListFooterComponent={<TaskButton onAddTask={() => this.props.navigation.push('Add Task', {...this.state.tasks})}/>}
-                        ListEmptyComponent={<TaskButton onAddTask={() => this.props.navigation.push('Add Task'), {...this.state.tasks}}/>}/>
+                         style={styles.flatList}
+                        ListFooterComponent={<TaskButton onAddTask={() => {this.props.navigation.push('Add Task', {addContact: () => this.addContact})}} />}
+                        ListEmptyComponent={<TaskButton onAddTask={() => {this.props.navigation.push('Add Task', {addContact: () => this.addContact})}} />}
+                        />
                         
                     </View>
                     <View style={styles.section} key="2">
